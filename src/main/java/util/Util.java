@@ -4,10 +4,7 @@ import java.util.List;
 
 import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,14 +27,14 @@ public class Util {
         return element;
     }
 
-    @Step("Wait until clickable")
-    protected WebElement waitUntilClickable(By by) {
-        return wait.until(ExpectedConditions.elementToBeClickable(by));
-    }
-
     @Step("Find Elements")
     protected List<WebElement> findElements(By by) {
         return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+    }
+
+    @Step("Wait until clickable")
+    protected WebElement waitUntilClickable(By by) {
+        return wait.until(ExpectedConditions.elementToBeClickable(by));
     }
 
     @Step("Click Element")
@@ -54,6 +51,37 @@ public class Util {
         logger.info("Clicked element : " + element.toString());
     }
 
+    @Step("Click element with text")
+    protected void clickElementWithText(By by, String value) {
+        List<WebElement> elements = findElements(by);
+        elements.stream().filter(x -> value.equals(x.getText())).findFirst()
+                .orElseThrow(() -> new IllegalStateException("Element with text: " + value + " is not found!")).click();
+    }
+
+    @Step("Click element with javascript")
+    protected void jsClicker(WebElement element) {
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click();", element);
+    }
+
+    @Step("Click element if exist")
+    public void clickElementIfExist(By element) {
+        wait = new WebDriverWait(driver, 10);
+        if (isElementPresent(element)) {
+            wait.until(ExpectedConditions.presenceOfElementLocated(element)).click();
+        }
+        wait = new WebDriverWait(driver, 30);
+    }
+
+    @Step("Click element if exist")
+    public void clickElementIfExist(By element, int waitSeconds) {
+        wait = new WebDriverWait(driver, waitSeconds);
+        if (isElementPresent(element)) {
+            wait.until(ExpectedConditions.presenceOfElementLocated(element)).click();
+        }
+        wait = new WebDriverWait(driver, 30);
+    }
+
     @Step("Set Text")
     protected void sendKeys(By by, String text) {
         waitUntilClickable(by);
@@ -63,9 +91,21 @@ public class Util {
         element.sendKeys(text);
     }
 
+    @Step("Set Text at specific index")
+    public void sendKeysAtIndex(By element, String text, int index) {
+        wait.ignoring(StaleElementReferenceException.class)
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(element)).get(index).sendKeys(text);
+        logger.info("Set " + text + " to " + element + " at index: " + index);
+    }
+
     @Step("Get text")
     protected String getText(By by) {
         return findElement(by).getText();
+    }
+
+    @Step("Get text at specific index")
+    public String getTextWithIndex(By element, int index) {
+        return findElements(element).get(index).getText();
     }
 
     @Step("Get attribute")
@@ -80,16 +120,29 @@ public class Util {
         action.moveToElement(element).perform();
     }
 
-    @Step("Click element with text")
-    protected void clickElementWithText(By by, String value) {
-        List<WebElement> elements = findElements(by);
-        elements.stream().filter(x -> value.equals(x.getText())).findFirst()
-                .orElseThrow(() -> new IllegalStateException("Element with text: " + value + " is not found!")).click();
+    @Step("Is element present or not")
+    public boolean isElementPresent(By element) {
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(element));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
-    @Step("Click element with javascript")
-    protected void jsClicker(WebElement element) {
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click();", element);
+    @Step("Is element present or not")
+    public boolean isElementPresent(By element, int waitSeconds) {
+        wait = new WebDriverWait(driver, waitSeconds);
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(element));
+            wait = new WebDriverWait(driver, 30);
+            return true;
+        } catch (Exception e) {
+            wait = new WebDriverWait(driver, 30);
+            return false;
+        }
+
     }
+
 }
