@@ -62,6 +62,7 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 .flattened-pom.xml
 
-.settings
+.settings/
 .classpath
 .project
+test-output/
