@@ -10,10 +10,11 @@ For reporting Allure framework is used.
 - Chrome and Firebox browsers
 ## Execution
 
-You can use your ide to run tests one by one. The Chrome browser is selected as default browser.
+You can use your ide to run tests one by one and get allure reports. The Chrome browser is selected as default browser.
 
 If you want to execute cross browser tests and get allure reports
-, you should use simple maven commands. This command will execute your tests and creates allure-reports folder at project's root directory.
+, you should use below maven commands. This command will execute your tests and creates allure-reports folder at project
+'s root directory.
 
 ```bash
 mvn test
