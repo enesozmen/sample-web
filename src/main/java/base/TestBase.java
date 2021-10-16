@@ -8,7 +8,7 @@ public class TestBase {
 	static final Logger log = Logger.getLogger(TestBase.class);
 	public static WebDriver driver;
 
-	@Parameters("browser")
+	@Parameters({"browser"})
 	@BeforeMethod(alwaysRun = true)
 	public void setup(@Optional("CHROME") String browser) {
 		driver = DriverFactory.getDriver(browser);

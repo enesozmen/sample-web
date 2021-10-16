@@ -12,12 +12,12 @@ import pages.HomePage;
 @Listeners({ TestListener.class })
 public class SampleTest extends TestBase {
 
-	@Severity(SeverityLevel.BLOCKER)
-	@Test
-	public void test() {
-		new HomePage(driver)
-				.goUrl("https://www.trendyol.com").searchProduct("pantalon").clickLogin();
-	}
+//	@Severity(SeverityLevel.BLOCKER)
+//	@Test
+//	public void test() {
+//		new HomePage(driver)
+//				.goUrl("https://www.trendyol.com").searchProduct("enes");
+//	}
 
 	@Severity(SeverityLevel.CRITICAL)
 	@Test
