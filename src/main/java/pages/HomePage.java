@@ -20,7 +20,6 @@ public class HomePage extends BasePage {
 
 	public HomePage clickLogin(){
 		clickElementIfExist(By.className("modal-close"));
-		clickElement(By.className("dd"));
 		return this;
 	}
 

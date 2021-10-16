@@ -16,6 +16,7 @@
 		<java.version>1.8</java.version>
 		<aspectj.version>1.9.5</aspectj.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<allure.results.directory>target/allure-results</allure.results.directory>
 	</properties>
 
 	<dependencies>
@@ -66,8 +67,13 @@
 					<argLine>
 						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 					</argLine>
+					<systemProperties>
+						<property>
+							<name>allure.results.directory</name>
+							<value>${allure.results.directory}</value>
+						</property>
+					</systemProperties>
 					<suiteXmlFiles>
-						<suiteXmlFile>testng.xml</suiteXmlFile>
 						<suiteXmlFile>testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
