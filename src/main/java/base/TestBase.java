@@ -5,17 +5,19 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
 public class TestBase {
-	static final Logger log = Logger.getLogger(TestBase.class);
+	static final Logger logger = Logger.getLogger(TestBase.class);
 	public static WebDriver driver;
 
 	@Parameters("browser")
 	@BeforeMethod(alwaysRun = true)
 	public void setup(@Optional("CHROME") String browser) {
 		driver = DriverFactory.getDriver(browser);
+		logger.info("****** TEST STARTED ******");
 	}
 
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		driver.quit();
+		logger.info("****** TEST FINISHED ******");
 	}
 }

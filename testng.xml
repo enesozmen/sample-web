@@ -3,33 +3,21 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="TestSuite" thread-count="1" parallel="tests" >
-
+    <listeners>
+        <listener class-name="base.TestListener" />
+    </listeners>
     <test name="ChromeTest">
-
         <parameter name="browser" value="CHROME" />
-
         <classes>
-
             <class name="test.SampleTest">
-
             </class>
-
         </classes>
-
     </test>
-
     <test name="FirefoxTest">
-
         <parameter name="browser" value="FIREFOX" />
-
         <classes>
-
             <class name="test.SampleTest">
-
             </class>
-
         </classes>
-
     </test>
-
 </suite>

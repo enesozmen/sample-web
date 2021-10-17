@@ -84,11 +84,16 @@ public class Util {
 
     @Step("Set Text")
     protected void sendKeys(By by, String text) {
-        waitUntilClickable(by);
-        WebElement element = findElement(by);
-        element.clear();
-        logger.info("Element Send Keys : " + text + "-" + element);
-        element.sendKeys(text);
+        try {
+            wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(by))
+                    .sendKeys(text);
+            logger.info("Set " + text + " to " + by);
+        } catch (Exception ex) {
+            wait.ignoring(StaleElementReferenceException.class)
+                    .until(ExpectedConditions.presenceOfElementLocated(by))
+                    .sendKeys(text);
+            logger.info("Set " + text + " to " + by);
+        }
     }
 
     @Step("Set Text at specific index")
