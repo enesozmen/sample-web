@@ -37,17 +37,17 @@ jobs:
         run: mvn test
         continue-on-error: true
 
-      - name: Install Allure
+      - name: Install Allure CommandLine
         run: |
-          wget https://github.com/allure-framework/allure2/releases/download/2.22.3/allure-2.22.3.zip
-          unzip -o allure-2.22.3.zip
-          sudo mv allure-2.22.3 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
+          wget https://github.com/allure-framework/allure2/releases/download/2.22.3/allure-commandline-2.22.3.tgz
+          tar -zxvf allure-commandline-2.22.3.tgz
+          sudo mv allure /opt/
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          allure --version
 
       - name: Generate Allure Report
         run: |
-          export PATH=$PATH:/opt/allure/bin
-          allure generate --clean target/allure-results
+          /opt/allure/bin/allure generate --clean target/allure-results
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
