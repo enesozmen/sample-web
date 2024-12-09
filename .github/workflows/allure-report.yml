@@ -30,11 +30,23 @@ jobs:
           sudo apt-get install -y google-chrome-stable
           google-chrome --version
 
-      - name: Install dependencies and run tests
-        run: mvn clean test allure:report
+      - name: Run tests
+        run: mvn clean test
+
+      - name: Generate Allure Report
+        run: |
+          mvn allure:report
+          ls -l target/
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
-          path: target/allure-report/
+          path: target/site/allure-maven-plugin/
+
+      - name: Publish Allure Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-results
+          path: target/allure-results
+          if-no-files-found: warn
