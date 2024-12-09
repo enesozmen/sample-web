@@ -12,12 +12,12 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <allure.version>2.22.3</allure.version>
-        <aspectj.version>1.9.21</aspectj.version>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <allure.results.directory>target/allure-results</allure.results.directory>
+        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+        <allure.report.directory>${project.build.directory}/site/allure-maven-plugin</allure.report.directory>
+        <aspectj.version>1.9.7</aspectj.version>
+        <allure.version>2.20.0</allure.version>
     </properties>
+
 
     <dependencies>
         <dependency>

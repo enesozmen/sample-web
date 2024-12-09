@@ -23,6 +23,9 @@ jobs:
       - name: Run tests
         run: mvn clean test
 
+      - name: Check Test Results
+        run: ls -R target/allure-results/
+
       # Allure raporlarını oluştur
       - name: Generate Allure Report
         run: |
