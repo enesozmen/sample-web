@@ -1,5 +1,6 @@
 package util;
 
+import java.time.Duration;
 import java.util.List;
 
 import io.qameta.allure.Step;
@@ -17,7 +18,7 @@ public class Util {
 
     public Util(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 15);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     @Step("Find Element")
@@ -66,20 +67,20 @@ public class Util {
 
     @Step("Click element if exist")
     public void clickElementIfExist(By element) {
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         if (isElementPresent(element)) {
             wait.until(ExpectedConditions.presenceOfElementLocated(element)).click();
         }
-        wait = new WebDriverWait(driver, 30);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     @Step("Click element if exist")
     public void clickElementIfExist(By element, int waitSeconds) {
-        wait = new WebDriverWait(driver, waitSeconds);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(waitSeconds));
         if (isElementPresent(element)) {
             wait.until(ExpectedConditions.presenceOfElementLocated(element)).click();
         }
-        wait = new WebDriverWait(driver, 30);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     @Step("Set Text")
@@ -138,13 +139,13 @@ public class Util {
 
     @Step("Is element present or not")
     public boolean isElementPresent(By element, int waitSeconds) {
-        wait = new WebDriverWait(driver, waitSeconds);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(waitSeconds));
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(element));
-            wait = new WebDriverWait(driver, 30);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             return true;
         } catch (Exception e) {
-            wait = new WebDriverWait(driver, 30);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             return false;
         }
 

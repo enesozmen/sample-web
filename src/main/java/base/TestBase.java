@@ -11,7 +11,7 @@ public class TestBase {
 	@Parameters("browser")
 	@BeforeMethod(alwaysRun = true)
 	public void setup(@Optional("CHROME") String browser) {
-		driver = DriverFactory.getDriver(browser);
+		driver = DriverFactory.getDriver("CHROME");
 		logger.info("****** TEST STARTED ******");
 	}
 
