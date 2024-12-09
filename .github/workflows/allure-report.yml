@@ -30,27 +30,11 @@ jobs:
           sudo apt-get install -y google-chrome-stable
           google-chrome --version
 
-      - name: Install dependencies
-        run: mvn install -DskipTests
-
-      - name: Run tests
-        run: mvn test
-        continue-on-error: true
-
-      - name: Install Allure CommandLine
-        run: |
-          wget https://github.com/allure-framework/allure2/releases/download/2.22.3/allure-commandline-2.22.3.tgz
-          tar -zxvf allure-commandline-2.22.3.tgz
-          sudo mv allure /opt/
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-          allure --version
-
-      - name: Generate Allure Report
-        run: |
-          /opt/allure/bin/allure generate --clean target/allure-results
+      - name: Install dependencies and run tests
+        run: mvn clean test allure:report
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
-          path: allure-report/
+          path: target/allure-report/
