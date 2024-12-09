@@ -1,52 +1,45 @@
-name: Allure Test Pipeline
+name: Run tests and upload allure report
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      # Repository'yi checkout et
+      - uses: actions/checkout@v3
 
+      # Maven için JDK ayarı
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
-          cache: 'maven'
+          java-version: '17'
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          google-chrome --version
-
+      # Testleri çalıştır
       - name: Run tests
         run: mvn clean test
 
+      # Allure raporlarını oluştur
       - name: Generate Allure Report
         run: |
           mvn allure:report
           ls -l target/
 
+      # Allure raporunu bir artifact olarak yükle
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: target/site/allure-maven-plugin/
 
-      - name: Publish Allure Report
+      # Test sonuçlarını bir artifact olarak yükle
+      - name: Upload Allure Results
         uses: actions/upload-artifact@v3
         with:
           name: allure-results
-          path: target/allure-results
+          path: target/allure-results/
           if-no-files-found: warn
