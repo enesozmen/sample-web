@@ -31,7 +31,7 @@ jobs:
           google-chrome --version
 
       - name: Install dependencies
-        run: mvn install
+        run: mvn install -DskipTests
 
       - name: Run tests
         run: mvn test
