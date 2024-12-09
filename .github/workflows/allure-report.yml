@@ -39,12 +39,15 @@ jobs:
 
       - name: Install Allure
         run: |
-          curl -o allure.zip -sSL https://github.com/allure-framework/allure2/releases/download/2.22.3/allure-2.22.3.zip
-          unzip -o allure.zip -d /usr/local/bin/
-          rm -f allure.zip
+          wget https://github.com/allure-framework/allure2/releases/download/2.22.3/allure-2.22.3.zip
+          unzip -o allure-2.22.3.zip
+          sudo mv allure-2.22.3 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
 
       - name: Generate Allure Report
-        run: allure generate --clean target/allure-results
+        run: |
+          export PATH=$PATH:/opt/allure/bin
+          allure generate --clean target/allure-results
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
