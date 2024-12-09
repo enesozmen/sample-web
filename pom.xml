@@ -12,8 +12,8 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-        <allure.report.directory>${project.build.directory}/site/allure-maven-plugin</allure.report.directory>
+        <allure.results.directory>target/allure-results</allure.results.directory>
+        <allure.report.directory>target/allure-results/site/allure-maven-plugin</allure.report.directory>
         <aspectj.version>1.9.7</aspectj.version>
         <allure.version>2.20.0</allure.version>
     </properties>
@@ -122,7 +122,7 @@
                 <configuration>
                     <reportVersion>${allure.version}</reportVersion>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
-                    <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
+                    <reportDirectory>${project.build.directory}/site/allure-maven-plugin</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>
