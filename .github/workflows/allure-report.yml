@@ -1,4 +1,4 @@
-name: Run tests and upload allure report
+name: Run tests and upload single-file allure report
 
 on:
   push:
@@ -10,28 +10,33 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      # 1. Repository'yi checkout et
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      # Repository'yi checkout et
+      - uses: actions/checkout@v3
 
-      # 2. JDK ayarı
+      # Maven için JDK ayarı
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 3. Maven bağımlılıklarını indir ve testleri çalıştır
-      - name: Run Tests
+      # Testleri çalıştır
+      - name: Run tests
         run: mvn clean test
 
-      # 4. Allure raporlarını oluştur
+      # Allure Commandline Tool'u indir ve kur
+      - name: Install Allure Commandline
+        run: |
+          wget -qO- https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz | tar -xz
+          sudo mv allure-2.20.1 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      # Tek dosya halinde Allure raporunu oluştur
       - name: Generate Single-File Allure Report
         run: |
           allure generate --clean --single-file target/allure-results -o target/single-file-report
-      
 
-      # 5. Allure raporlarını artifact olarak yükle
+      # Tek dosyalık Allure raporunu yükle
       - name: Upload Single-File Allure Report
         uses: actions/upload-artifact@v3
         with:
