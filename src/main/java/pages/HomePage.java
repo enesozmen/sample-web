@@ -1,11 +1,11 @@
 package pages;
 
-import base.BasePage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import util.Util;
 
-public class HomePage extends BasePage {
+public class HomePage extends Util {
 	final static Logger logger = Logger.getLogger(HomePage.class);
 
 	public HomePage(WebDriver driver) {

@@ -5,41 +5,38 @@ on:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      # Repository'yi checkout et
-      - uses: actions/checkout@v3
+      # 1. Repository'yi checkout et
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      # Maven için JDK ayarı
+      # 2. JDK ayarı
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # Testleri çalıştır
-      - name: Run tests
+      # 3. Maven bağımlılıklarını indir ve testleri çalıştır
+      - name: Run Tests
         run: mvn clean test
 
-      - name: Check Test Results
-        run: ls -R target/allure-results/
-
-      # Allure raporlarını oluştur
+      # 4. Allure raporlarını oluştur
       - name: Generate Allure Report
-        run: |
-          mvn allure:report
-          ls -l target/
+        run: mvn allure:report
 
-      # Allure raporunu bir artifact olarak yükle
+      # 5. Allure raporlarını artifact olarak yükle
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: target/site/allure-maven-plugin/
 
-      # Test sonuçlarını bir artifact olarak yükle
+      # 6. Test sonuçlarını artifact olarak yükle
       - name: Upload Allure Results
         uses: actions/upload-artifact@v3
         with:

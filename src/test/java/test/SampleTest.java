@@ -1,7 +1,6 @@
 package test;
 
 import base.TestBase;
-import base.TestListener;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Listeners;
@@ -9,7 +8,6 @@ import org.testng.annotations.Test;
 import pages.HomePage;
 
 
-@Listeners({ TestListener.class })
 public class SampleTest extends TestBase {
 
 	@Severity(SeverityLevel.BLOCKER)
