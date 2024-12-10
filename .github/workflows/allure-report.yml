@@ -1,4 +1,4 @@
-name: Run tests and upload single-file allure report
+name: Run tests and upload Allure report
 
 on:
   push:
@@ -31,14 +31,13 @@ jobs:
           sudo mv allure-2.20.1 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-      # Tek dosya halinde Allure raporunu oluştur
-      - name: Generate Single-File Allure Report
-        run: |
-          allure generate --clean --single-file target/allure-results -o target/single-file-report
+      # Allure raporunu oluştur
+      - name: Generate Allure Report
+        run: allure generate target/allure-results -o target/allure-report
 
-      # Tek dosyalık Allure raporunu yükle
-      - name: Upload Single-File Allure Report
+      # Allure raporunu yükle
+      - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
-          name: allure-single-report
-          path: target/single-file-report/index.html
+          name: allure-report
+          path: target/allure-report/
