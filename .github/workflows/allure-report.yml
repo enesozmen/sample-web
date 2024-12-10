@@ -24,6 +24,9 @@ jobs:
       - name: Run tests
         run: mvn clean test
 
+      - name: Check Test Results
+        run: ls -R target/allure-results/
+
       # Allure Commandline Tool'u indir ve kur
       - name: Install Allure Commandline
         run: |
