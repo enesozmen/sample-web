@@ -26,20 +26,14 @@ jobs:
         run: mvn clean test
 
       # 4. Allure raporlarını oluştur
-      - name: Generate Allure Report
-        run: mvn allure:report
+      - name: Generate Single-File Allure Report
+        run: |
+          allure generate --clean --single-file target/allure-results -o target/single-file-report
+      
 
       # 5. Allure raporlarını artifact olarak yükle
-      - name: Upload Allure Report
+      - name: Upload Single-File Allure Report
         uses: actions/upload-artifact@v3
         with:
-          name: allure-report
-          path: target/site/allure-maven-plugin/
-
-      # 6. Test sonuçlarını artifact olarak yükle
-      - name: Upload Allure Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results
-          path: target/allure-results/
-          if-no-files-found: warn
+          name: allure-single-report
+          path: target/single-file-report/index.html
