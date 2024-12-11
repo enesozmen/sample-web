@@ -9,12 +9,17 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Bu izni ekleyin
     steps:
-      - uses: actions/checkout@v4  # En son sürümü kullanın
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Tüm geçmişi indir
+          fetch-depth: 0
+
+      # gh-pages branch'ını ayrıca checkout et
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -24,6 +29,14 @@ jobs:
 
       - name: Run tests
         run: mvn clean test
+
+      # History dizinini koruma
+      - name: Preserve Allure History
+        run: |
+          mkdir -p allure-history
+          if [ -d "gh-pages/allure-history" ]; then
+            cp -R gh-pages/allure-history/* allure-history/
+          fi
 
       - name: Publish Allure Report
         uses: simple-elf/allure-report-action@v1.11
