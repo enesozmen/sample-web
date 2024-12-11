@@ -1,2 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","1734","test","Surefire suite","Wed Dec 11 11:50:08 GMT 2024","passed","Wed Dec 11 11:50:10 GMT 2024","test.SampleTest","Surefire test","test.SampleTest","test"
+"","1121","test","Surefire suite","Wed Dec 11 13:18:34 GMT 2024","passed","Wed Dec 11 13:18:35 GMT 2024","test.SampleTest","Surefire test","test.SampleTest","test"
