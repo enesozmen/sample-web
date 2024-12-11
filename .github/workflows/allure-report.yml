@@ -1,4 +1,4 @@
-name: Run tests and upload Allure single-file report
+name: Run tests and publish Allure report to GitHub Pages
 
 on:
   push:
@@ -9,31 +9,40 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       # Repository'yi checkout et
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # Maven için JDK ayarı
+      # JDK kurulumu
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # Testleri çalıştır
+      # Maven ile testleri çalıştır
       - name: Run tests
         run: mvn clean test
 
-      # Allure raporunu tek dosya olarak oluştur
-      - name: Allure Single File Report
-        uses: jcleigh/allure-single-file-report-action@v1.0.0
-        with:
-          allure_results: target/allure-results
-          allure_report: target/allure-report.html
+      # Allure raporunu oluştur
+      - name: Generate Allure Report
+        run: allure generate target/allure-results -o target/allure-report
 
-      # Raporu GitHub Artifacts olarak yükle
-      - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+      # Allure raporunu GitHub Pages'de yayınlamak için yükle
+      - name: Publish Allure Report to GitHub Pages
+        uses: simple-elf/allure-report-action@v1.11
+        if: always()
         with:
-          name: allure-report
-          path: target/allure-report.html
+          allure_results: target/allure-results   # Test sonuçlarının bulunduğu dizin
+          gh_pages: gh-pages                     # GitHub Pages için branch
+          allure_report: allure-report           # Allure raporunun dizini
+          allure_history: allure-history         # Allure geçmiş raporları dizini (isteğe bağlı)
+
+      # GitHub Pages'e yükle
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/allure-report   # Allure raporlarının bulunduğu dizin
