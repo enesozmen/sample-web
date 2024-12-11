@@ -9,35 +9,36 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
+    steps:
+      # Repository'yi checkout et
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # JDK kurulumu
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # Maven ile testleri çalıştır
       - name: Run tests
         run: mvn clean test
 
-      - name: Publish Allure Report
+      # Allure raporunu GitHub Pages'de yayınlamak için yükle
+      - name: Publish Allure Report to GitHub Pages
         uses: simple-elf/allure-report-action@v1.11
         if: always()
         with:
-          allure_results: target/allure-results
-          gh_pages: gh-pages
-          allure_report: allure-report
-          allure_history: allure-history
-          keep_reports: 20
-          github_run_num: ${{ github.run_number }}
-          github_run_id: ${{ github.run_id }}
+          allure_results: target/allure-results   # Test sonuçlarının bulunduğu dizin
+          gh_pages: gh-pages                     # GitHub Pages için branch
+          allure_report: allure-report           # Allure raporunun dizini
+          allure_history: allure-history         # Allure geçmiş raporları dizini (isteğe bağlı)
 
+      # GitHub Pages'e yükle
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-report
+          publish_dir: allure-report   # Allure raporlarının bulunduğu dizin
