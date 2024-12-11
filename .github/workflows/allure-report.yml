@@ -28,8 +28,8 @@ jobs:
       - name: Allure report V2
         uses: QuintilianoNery/action-allure-report-V2@0.2.0
         with:
-          allure_results: target/allure-results  # Test sonuçlarının bulunduğu dizin
-          allure_report: target/allure-report  # Çıktı dosyasının yolu (veya adlandırılması)
+          results-dir: target/allure-results  # Test sonuçlarının bulunduğu dizin
+          report-dir: target/allure-report  # Çıktı dosyasının yolu
 
       # Allure raporunu artifact olarak yükle
       - name: Upload Allure Report
