@@ -1,4 +1,4 @@
-name: Run tests and upload Allure V2 report
+name: Run tests and upload Allure single-file report
 
 on:
   push:
@@ -24,16 +24,16 @@ jobs:
       - name: Run tests
         run: mvn clean test
 
-      # Allure raporunu oluşturmak için action'ı kullan
-      - name: Allure report V2
-        uses: QuintilianoNery/action-allure-report-V2@0.2.0
+      # Allure raporunu tek dosya olarak oluştur
+      - name: Allure Single File Report
+        uses: jcleigh/allure-single-file-report-action@v1.0.0
         with:
-          results-dir: allure-results  # Test sonuçlarının bulunduğu dizin
-          report-dir: allure-report  # Çıktı dosyasının yolu
+          allure_results: target/allure-results
+          allure_report: target/allure-report.html
 
-      # Allure raporunu artifact olarak yükle
+      # Raporu GitHub Artifacts olarak yükle
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
-          path: allure-report  # Raporun bulunduğu dizin veya dosya
+          path: target/allure-report.html
