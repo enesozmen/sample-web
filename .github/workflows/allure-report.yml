@@ -26,7 +26,16 @@ jobs:
       - name: Run tests
         run: mvn clean test
 
-      # Allure raporunu GitHub Pages'de yayınlamak için yükle
+      # Geçmiş Allure raporlarını almak için gh-pages dalını checkout et
+      - name: Get Allure history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # Allure raporunu oluştur ve yükle
       - name: Publish Allure Report to GitHub Pages
         uses: simple-elf/allure-report-action@v1.11
         if: always()
@@ -34,7 +43,8 @@ jobs:
           allure_results: target/allure-results   # Test sonuçlarının bulunduğu dizin
           gh_pages: gh-pages                     # GitHub Pages için branch
           allure_report: allure-report           # Allure raporunun dizini
-          allure_history: allure-history         # Allure geçmiş raporları dizini (isteğe bağlı)
+          allure_history: allure-history         # Allure geçmiş raporları dizini
+          keep_reports: 20                       # Eski raporları tutma sayısı (isteğe bağlı)
 
       # GitHub Pages'e yükle
       - name: Deploy to GitHub Pages
