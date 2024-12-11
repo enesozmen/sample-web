@@ -24,23 +24,20 @@ jobs:
       - name: Run tests
         run: mvn clean test
 
+      # Test sonuçlarını kontrol et
       - name: Check Test Results
         run: ls -R target/allure-results/
 
-      # Allure Commandline Tool'u indir ve kur
-      - name: Install Allure Commandline
-        run: |
-          wget -qO- https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz | tar -xz
-          sudo mv allure-2.20.1 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-
       # Allure raporunu oluştur
-      - name: Generate Allure Report
-        run: allure generate target/allure-results -o target/allure-report
+      - name: Allure report
+        uses: afiore/action-allure-report@v0.1.0
+        with:
+          allure_results: target/allure-results
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Allure raporunu yükle
-      - name: Upload Allure Report
+      # Allure raporunu artifact olarak yükle
+      - name: Upload Allure Report Artifact
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
-          path: target/
+          path: target/allure-report
