@@ -26,10 +26,19 @@ jobs:
       - name: Run tests
         run: mvn clean test
 
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+         ref: gh-pages
+         path: gh-pages
+
       # Allure raporunu GitHub Pages'de yayınlamak için yükle
       - name: Allure Report with history and merged results
-        uses: jamesquantum/allure-report-action-merge@v0.0.1
+        uses: simple-elf/allure-report-action@master
         if: always()
+        id: allure-report
         with:
           allure_results: target/allure-results   # Test sonuçlarının bulunduğu dizin
           gh_pages: gh-pages                     # GitHub Pages için branch
