@@ -27,8 +27,8 @@ jobs:
         run: mvn clean test
 
       # Allure raporunu GitHub Pages'de yayınlamak için yükle
-      - name: Publish Allure Report to GitHub Pages
-        uses: simple-elf/allure-report-action@v1.11
+      - name: Allure Report with history and merged results
+        uses: jamesquantum/allure-report-action-merge@v0.0.1
         if: always()
         with:
           allure_results: target/allure-results   # Test sonuçlarının bulunduğu dizin
