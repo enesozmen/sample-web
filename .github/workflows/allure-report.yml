@@ -34,7 +34,7 @@ jobs:
           allure_results: target/allure-results   # Test sonuçlarının bulunduğu dizin
           gh_pages: gh-pages                     # GitHub Pages için branch
           allure_report: allure-report           # Allure raporunun dizini
-          allure_history: history         # Allure geçmiş raporları dizini (isteğe bağlı)
+          allure_history: last-history         # Allure geçmiş raporları dizini (isteğe bağlı)
 
       # GitHub Pages'e yükle
       - name: Deploy to GitHub Pages
