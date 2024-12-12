@@ -1,6 +1,6 @@
 package base;
 
-import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -8,14 +8,21 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-
 public class TestListener extends TestBase implements ITestListener {
     final static Logger logger = Logger.getLogger(TestListener.class);
 
     private static String getTestMethodName(ITestResult iTestResult) {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
+    }
+
+    @Attachment(value = "Screenshot on Failure", type = "image/png")
+    public byte[] saveScreenshotPNG(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    @Attachment(value = "Error Message", type = "text/plain")
+    public String saveErrorMessage(String message) {
+        return message;
     }
 
     @Override
@@ -25,18 +32,13 @@ public class TestListener extends TestBase implements ITestListener {
         WebDriver driver = TestBase.driver;
 
         if (driver != null) {
-            // Ekran görüntüsü al ve Allure raporuna ekle
-            byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment("Screenshot on Failure", "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
-
             logger.info("Screenshot captured for test case: " + getTestMethodName(iTestResult));
+            saveScreenshotPNG(driver);
         }
 
-        // Hata mesajını Allure raporuna ekle
         Throwable throwable = iTestResult.getThrowable();
         if (throwable != null) {
-            String errorMessage = throwable.getMessage();
-            Allure.addAttachment("Error Message", "text/plain", new ByteArrayInputStream(errorMessage.getBytes(StandardCharsets.UTF_8)), ".txt");
+            saveErrorMessage(throwable.getMessage());
         }
 
         logger.info(getTestMethodName(iTestResult) + " failed and additional info logged to Allure!");
