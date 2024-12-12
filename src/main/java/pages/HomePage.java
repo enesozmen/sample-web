@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,11 +19,13 @@ public class HomePage extends Util {
 		return this;
 	}
 
+	@Step("Click Login")
 	public HomePage clickLogin(){
 		clickElementIfExist(By.className("modal-close"));
 		return this;
 	}
 
+	@Step("Search product")
 	public HomePage searchProduct(String product){
 		sendKeys(By.xpath("//input[@class='seardsvfdsfvdsfdch-box']"),product);
 		return this;

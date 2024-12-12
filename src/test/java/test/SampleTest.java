@@ -8,7 +8,6 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.HomePage;
 
-@Listeners({ TestListener.class })
 public class SampleTest extends TestBase {
 
 	@Severity(SeverityLevel.BLOCKER)

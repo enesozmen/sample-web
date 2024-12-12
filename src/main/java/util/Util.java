@@ -17,7 +17,7 @@ public class Util {
 
     public Util(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     protected WebElement findElement(By by) {
