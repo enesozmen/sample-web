@@ -24,7 +24,7 @@ public class HomePage extends Util {
 	}
 
 	public HomePage searchProduct(String product){
-		sendKeys(By.xpath("//input[@class='search-box']"),product);
+		sendKeys(By.xpath("//input[@class='seardsvfdsfvdsfdch-box']"),product);
 		return this;
 	}
 }

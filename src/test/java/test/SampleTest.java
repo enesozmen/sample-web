@@ -7,15 +7,15 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.HomePage;
 
-
+@Listeners(base.TestListener.class)
 public class SampleTest extends TestBase {
 
 	@Severity(SeverityLevel.BLOCKER)
 	@Test
 	public void test() {
 		new HomePage(driver)
-				.goUrl("https://www.trendyol.com");
-		//		.searchProduct("pantalon").clickLogin();
+				.goUrl("https://www.trendyol.com")
+				.searchProduct("pantalon").clickLogin();
 	}
 
 //	@Severity(SeverityLevel.CRITICAL)
