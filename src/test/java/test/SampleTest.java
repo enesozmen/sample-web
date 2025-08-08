@@ -11,11 +11,19 @@ import pages.HomePage;
 public class SampleTest extends TestBase {
 
 	@Severity(SeverityLevel.BLOCKER)
-	@Test
+	@Test(groups = {"happy"})
 	public void test() {
 		new HomePage(driver)
 				.goUrl("https://www.trendyol.com")
 				.searchProduct("pantalon").clickLogin();
+	}
+
+	@Severity(SeverityLevel.BLOCKER)
+	@Test(groups = {"transaction"})
+	public void test2() {
+		new HomePage(driver)
+				.goUrl("https://www.trendyol.com")
+				.searchProduct("gömlek").clickLogin();
 	}
 
 //	@Severity(SeverityLevel.CRITICAL)
