@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import io.qameta.allure.Step;
 import util.Util;
 
 public class HomePage extends Util {
@@ -12,7 +13,8 @@ public class HomePage extends Util {
 	public HomePage(WebDriver driver) {
 		super(driver);
 	}
-
+	
+	@Step("Open URL")
 	public HomePage goUrl(String url) {
 		driver.get(url);
 		logger.info("Opening website");
