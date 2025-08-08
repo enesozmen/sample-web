@@ -29,7 +29,7 @@ public class HomePage extends Util {
 
 	@Step("Search product")
 	public HomePage searchProduct(String product){
-		sendKeys(By.xpath("//input[@class='seardsvfdsfvdsfdch-box']"),product);
+		sendKeys(By.xpath("//input[@data-testid='suggestion']"),product);
 		return this;
 	}
 }
