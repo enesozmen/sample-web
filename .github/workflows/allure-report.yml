@@ -5,13 +5,24 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      testType:
+        description: "Which tests to run?"
+        required: true
+        default: "happy"
+        type: choice
+        options:
+          - happy
+          - transaction
+  schedule:
+    - cron: "0 6 * * *" # Her gün Türkiye saatiyle 09:00'da çalışır (UTC+3)
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      # Repository'yi checkout et
+      # Repo'yu checkout et
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -22,10 +33,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Maven ile testleri çalıştır
-      - name: Run tests
-        run: mvn clean test
+      # Testleri çalıştır
+      - name: Run selected tests
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event_name }}" = "push" ]; then
+            echo "Scheduled/Push run detected → running happy path tests"
+            mvn clean test -Dgroups=happy
+          else
+            echo "Manual run detected → running ${{ github.event.inputs.testType }} tests"
+            mvn clean test -Dgroups=${{ github.event.inputs.testType }}
+          fi
 
+      # Önceki rapor geçmişini al
       - name: Get Allure history
         uses: actions/checkout@v3
         if: always()
@@ -34,16 +53,17 @@ jobs:
          ref: gh-pages
          path: gh-pages
 
+      # Allure raporunu oluştur
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@v1.7
         if: always()
-        #id: allure-report
         with:
           gh_pages: gh-pages
           allure_results: target/allure-results
           allure_history: allure-history
           keep_reports: 20
 
+      # Raporu GitHub Pages'e gönder
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
