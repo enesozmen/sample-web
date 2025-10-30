@@ -1,2 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Fri Oct 10 06:03:07 GMT 2025","Fri Oct 10 06:03:21 GMT 2025","13849","Surefire suite","Surefire test","test.SampleTest","test.SampleTest","test","test",""
